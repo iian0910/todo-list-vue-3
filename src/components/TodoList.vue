@@ -61,19 +61,19 @@
 </template>
 
 <script>
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 export default {
   setup () {
     // 新增
     const newTodo = ref('')
-    const list = ref([])
+    const todos = ref([])
 
     function addTodo () {
       const txt = newTodo.value && newTodo.value.trim()
       if (!txt) {
         return false
       }
-      list.value.push({
+      todos.value.push({
         id: Math.floor(Date.now()),
         title: txt,
         completed: false
@@ -81,14 +81,10 @@ export default {
       newTodo.value = ''
     }
 
-    // 讀取資料
-    const todos = localStorage.getItem('todo')
-    list.value = JSON.parse(todos)
-
     // 檢查代辦筆數
     const countTodo = computed(() => {
       let count = 0
-      list.value.forEach((item) => {
+      todos.value.forEach((item) => {
         if (!item.completed) {
           count++
         }
@@ -101,15 +97,15 @@ export default {
     const visibility = ref('all')
 
     const filterTodo = computed(() => {
-      let newTodo = reactive([])
+      let newTodo = ref([])
       if (visibility.value === 'all') {
-        newTodo = list.value
+        newTodo = todos.value
       } else if (visibility.value === 'active') {
-        newTodo = list.value.filter((item) => {
+        newTodo = todos.value.filter((item) => {
           return !item.completed
         })
       } else if (visibility.value === 'completed') {
-        newTodo = list.value.filter((item) => {
+        newTodo = todos.value.filter((item) => {
           return item.completed
         })
       }
@@ -119,20 +115,28 @@ export default {
 
     // 清除項目
     function deleteItem (todo) {
-      const newIndex = list.value.findIndex((item, key) => {
+      const newIndex = todos.value.findIndex((item, key) => {
         return todo.id === item.id
       })
 
-      list.value.splice(newIndex, 1)
+      todos.value.splice(newIndex, 1)
     }
 
-    // 監控 list
-    watch(list.value, () => {
-      localStorage.setItem('todo', JSON.stringify(list.value))
+    // 讀取資料
+    onMounted(() => {
+      const storageData = localStorage.getItem('todo')
+      todos.value = JSON.parse(storageData) ? JSON.parse(storageData) : []
     })
 
+    // 監控 todo
+    watch(todos, () => {
+      localStorage.setItem('todo', JSON.stringify(todos.value))
+    },
+    { deep: true }
+    )
+
     return {
-      list,
+      todos,
       countTodo,
       newTodo,
       addTodo,
