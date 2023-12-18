@@ -10,6 +10,7 @@
           <TodoList
             :filterTodo="filterTodo"
             @deleteItem="deleteItem"
+            @saveEditor="saveEditor"
           />
           <div class="row d-flex justify-between">
             <div class="col-6 text-start align-self-center">{{countTodo}} 項代辦</div>
@@ -97,6 +98,13 @@ export default {
       todos.value.splice(newIndex, 1)
     }
 
+    // 儲存編輯項目
+    function saveEditor (todo) {
+      const changeTitle = todo.value.title
+      const getItem = todos.value.filter(item => item.id === todo.value.id)
+      getItem[0].title = changeTitle
+    }
+
     // 讀取資料
     onMounted(() => {
       const storageData = localStorage.getItem('todo')
@@ -117,7 +125,8 @@ export default {
       visibility,
       filterTodo,
       deleteItem,
-      chooseActive
+      chooseActive,
+      saveEditor
     }
   }
 }
