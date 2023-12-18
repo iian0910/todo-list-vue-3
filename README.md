@@ -1,15 +1,29 @@
-# Todo List Vue3.js
+# Todo List
 
-## 描述
+## 作品說明
+
+將其使用 Option API 製作的專案使用 Composition API 改寫
+
+## 系統說明
+
+**版本**
+
+Node.js `v20.9.0`
+
+## 資料夾說明
+
+```shell
+├── ...
+├── public            # 公共圖片資源
+├── src
+│   ├── assets/       # 靜態資源，如圖片與 scss 樣式
+│   ├── components/   # 各區塊元件
+│   └── ...
+└── ...
 ```
-將之前使用 Option API 寫的 TodoList 改為 Composition API 寫法，增加自己在 Composition API 使用上的熟練度。 
-```
+
 ## 使用技術
 ```
 Vue3.js
 Bootstrap 5
-```
-## Demo
-```
-https://tenpickypick.com/todo-list-vue-3/
 ```
