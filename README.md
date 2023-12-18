@@ -2,7 +2,7 @@
 
 ## 作品說明
 
-將其使用 Option API 製作的專案使用 Composition API 改寫
+將其使用 Option API 製作的專案使用 Composition API 改寫。此專案具備增、刪、改之功能，讓操作者在使用上被具備完善的使用情境。
 
 ## 系統說明
 
